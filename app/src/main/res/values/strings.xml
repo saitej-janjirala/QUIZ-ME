@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name">Quiz-me</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="swipe_left_for_register">Swipe Left for Register</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="e_mail">Email</string>
+    <string name="tag">Let\'s join us and \nBuild your relationship with others</string>
+    <string name="swipe_right_for_login">Swipe Right for Login</string>
+    <string name="register">Register</string>
+    <string name="re_type_password">Re-type Password</string>
+    <string name="your_name">Full Name</string>
+    <string name="retry">Retry</string>
+    <string name="my_profile">My profile</string>
+    <string name="reservations">Reservations</string>
+    <string name="logout">Logout</string>
+    <string name="open_drawer">open</string>
+    <string name="close_drawer">close</string>
+    <string name="home">Home</string>
+    <string name="enter_valid_email">Please Enter proper email</string>
+    <string name="pwd_error">The password should contain at-least one capital letter, one small letter, one special character and at-least a minimum length of 6 and a maximum of 16</string>
+    <string name="no_internet_text">Please check your internet connection and proceed</string>
+    <string name="enter_correct_values">Please enter the proper values</string>
+    <string name="name_error_msg">name must have at-least 3-characters</string>
+    <string name="both_passwords_same_error_msg">Both the passwords must be same</string>
+    <string name="account_creation_successful_msg">Your account has been created please login</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="enter_here">Enter here</string>
+    <string name="search_flights">Search Flights</string>
+    <string name="departure_date">Departure</string>
+    <string name="upcoming_flights">Upcoming Flights</string>
+    <string name="unable_to_process_request_please_try_again_later">Unable to process the request please try again later</string>
+    <string name="search_cant_be_empty">search can\'t be empty</string>
+    <string name="proceed">Proceed</string>
+    <string name="book_flight">Book Flight</string>
+    <string name="locations_should_be_different">Takeoff and destination locations should be different</string>
+    <string name="no_of_passengers_error">Number of passengers shouldn\'t be empty or less than 1</string>
+    <string name="departure_date_error">please select the departure date to proceed</string>
+    <string name="flight_booked_successfully">Flight Booked successfully</string>
+    <string name="takeoff_location_error">TakeOff Location shouldn\'t be empty</string>
+    <string name="destination_location_error">Destination Location shouldn\'t be empty</string>
+    <string name="update_your_details_and_save_the_changes_here">Update your details and save the changes here</string>
+    <string name="save_the_changes">Save the changes</string>
+    <string name="username_updated_successfully">Username updated successfully</string>
+    <string name="email_updated_successfully">Email updated successfully</string>
+    <string name="email_address_updated_successfully">Email address updated successfully</string>
+    <string name="please_book_a_flight">No upcoming Flights, please book a flight</string>
+    <string name="past_flights">Past Flights: -</string>
+    <string name="no_reservations_please_book_a_flight">No Reservations Available please book a flight</string>
+</resources>
