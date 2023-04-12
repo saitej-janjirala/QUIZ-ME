@@ -50,4 +50,5 @@
     <string name="please_book_a_flight">No upcoming Flights, please book a flight</string>
     <string name="past_flights">Past Flights: -</string>
     <string name="no_reservations_please_book_a_flight">No Reservations Available please book a flight</string>
+    <string name="past_tests">Past tests</string>
 </resources>

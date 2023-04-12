@@ -28,7 +28,8 @@
         </activity>
         <activity
             android:name=".ui.activities.HomeActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.QUIZME.NO_ACTION_BAR"/>
         <activity
             android:name=".ui.activities.MainActivity"
             android:exported="false">
