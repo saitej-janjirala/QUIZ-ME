@@ -52,4 +52,8 @@
     <string name="no_reservations_please_book_a_flight">No Reservations Available please book a flight</string>
     <string name="past_tests">Past tests</string>
     <string name="choose_a_topic_to_start_the_quiz">Choose a topic to start the quiz</string>
+    <string name="choose_the_difficulty_level_for">Choose the difficulty level for</string>
+    <string name="easy">EASY</string>
+    <string name="medium">MEDIUM</string>
+    <string name="hard">HARD</string>
 </resources>

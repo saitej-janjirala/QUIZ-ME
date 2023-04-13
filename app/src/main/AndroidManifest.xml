@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -14,7 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QUIZME"
         tools:targetApi="31">
-
+        <activity
+            android:name=".ui.activities.QuizActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.activities.SplashActivity"
             android:exported="true"
@@ -24,16 +26,14 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".ui.activities.HomeActivity"
             android:exported="false"
-            android:theme="@style/Theme.QUIZME.NO_ACTION_BAR"/>
+            android:theme="@style/Theme.QUIZME.NO_ACTION_BAR" />
         <activity
             android:name=".ui.activities.MainActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
     </application>
 
 </manifest>
