@@ -11,4 +11,7 @@
     <color name="bright_green_bg_color">#BC0CFBE0</color>
 
     <color name="white">#FFFFFF</color>
+    <color name="easy_color">#8BC34A</color>
+    <color name="medium_color">#FFC107</color>
+    <color name="hard_color">#F44336</color>
 </resources>
