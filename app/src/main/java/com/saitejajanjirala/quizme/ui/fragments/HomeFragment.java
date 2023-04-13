@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -67,6 +68,10 @@ public class HomeFragment extends Fragment implements OnQuizCategorySelectedList
         TextView title;
         Dialog dialog = new Dialog(requireContext());
         dialog.setContentView(R.layout.difficulty_level_dialog);
+        Window window = dialog.getWindow();
+        if (window != null) {
+            window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
 
         easy = dialog.findViewById(R.id.easy);
         medium = dialog.findViewById(R.id.medium);
