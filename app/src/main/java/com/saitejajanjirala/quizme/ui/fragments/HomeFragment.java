@@ -79,7 +79,7 @@ public class HomeFragment extends Fragment implements OnQuizCategorySelectedList
         title = dialog.findViewById(R.id.dialog_title);
         cancelButton  = dialog.findViewById(R.id.close);
 
-        title.append(categoryList.get(position).getName());
+        title.append(" "+categoryList.get(position).getName());
 
         easy.setOnClickListener(v -> {
             dialog.dismiss();
