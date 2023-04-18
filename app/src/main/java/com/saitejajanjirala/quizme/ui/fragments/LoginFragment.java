@@ -133,8 +133,8 @@ public class LoginFragment extends Fragment {
             FirebaseAuth auth = FirebaseAuth.getInstance();
             auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(task -> {
+                        progressBar.setVisibility(View.GONE);
                         if (task.isSuccessful()) {
-                            progressBar.setVisibility(View.GONE);
                             openHomeScreen(activity);
                         } else {
                             onAuthenticationFailed(task);
