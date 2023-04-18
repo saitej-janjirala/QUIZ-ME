@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.saitejajanjirala.quizme.R;
 import com.saitejajanjirala.quizme.models.Question;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.QuestionsViewHolder>{
@@ -46,6 +47,8 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
 
         TextView question;
         RecyclerView optionsRecyclerView;
+
+        private OptionsAdapter optionsAdapter;
         public QuestionsViewHolder(@NonNull View itemView) {
             super(itemView);
             question = itemView.findViewById(R.id.question);
@@ -54,7 +57,8 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
 
         void bind(int position,Question data){
             question.setText((position+1)+"." +data.getQuestion());
-
+            optionsAdapter = new OptionsAdapter(context, (HashMap<String, String>) data.getAnswers(),data.isMultipleCorrectAnswers());
+            optionsRecyclerView.setAdapter(optionsAdapter);
         }
     }
 }

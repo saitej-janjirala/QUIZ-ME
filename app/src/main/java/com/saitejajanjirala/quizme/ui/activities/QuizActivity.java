@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -36,7 +37,7 @@ public class QuizActivity extends AppCompatActivity {
     private Button retryButton;
     private List<Question> questionsList;
     private QuestionsAdapter questionsAdapter;
-    private RecyclerView questionsRecyclerView;
+    private ViewPager2 questionsRecyclerView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,8 +90,6 @@ public class QuizActivity extends AppCompatActivity {
     private void setUpAdapter(){
         questionsList = new ArrayList<>();
         questionsAdapter = new QuestionsAdapter(this,questionsList);
-        LinearLayoutManager ll = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
-        questionsRecyclerView.setLayoutManager(ll);
         questionsRecyclerView.setAdapter(questionsAdapter);
     }
 
@@ -99,7 +98,6 @@ public class QuizActivity extends AppCompatActivity {
         questionsList.clear();
         questionsList.addAll(questions);
         questionsAdapter.notifyDataSetChanged();
-        Log.i("questions vamshi",questions.get(0).toString());
     }
 
 }

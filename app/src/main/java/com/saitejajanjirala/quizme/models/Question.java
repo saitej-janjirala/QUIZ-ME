@@ -2,6 +2,7 @@ package com.saitejajanjirala.quizme.models;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +18,7 @@ public class Question {
     private String description;
 
     @SerializedName("answers")
-    private Map<String, String> answers;
+    private HashMap<String, String> answers;
 
     @SerializedName("multiple_correct_answers")
     private boolean multipleCorrectAnswers;
@@ -53,7 +54,7 @@ public class Question {
         return description;
     }
 
-    public Map<String, String> getAnswers() {
+    public HashMap<String, String> getAnswers() {
         return answers;
     }
 
