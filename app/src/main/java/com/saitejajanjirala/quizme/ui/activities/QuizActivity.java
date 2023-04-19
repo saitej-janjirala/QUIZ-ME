@@ -2,6 +2,7 @@ package com.saitejajanjirala.quizme.ui.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
@@ -38,6 +39,8 @@ public class QuizActivity extends AppCompatActivity {
     private List<Question> questionsList;
     private QuestionsAdapter questionsAdapter;
     private ViewPager2 questionsRecyclerView;
+    private CardView questionsCardView;
+    private Button finishButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,15 +61,23 @@ public class QuizActivity extends AppCompatActivity {
         retryButton = findViewById(R.id.retry_button);
         retryButton.setOnClickListener(view -> {
             fetchQuiz();
+            retryButton.setVisibility(View.GONE);
         });
         questionsRecyclerView = findViewById(R.id.recycler_view);
+        questionsCardView= findViewById(R.id.questions_card);
+        finishButton = findViewById(R.id.finish_test);
+        finishButton.setOnClickListener(view -> {
+           onFinishClicked();
+        });
+    }
+
+    private void onFinishClicked() {
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            onBackPressed(); // Call onBackPressed() when back arrow is clicked
-            return true;
+        if (item.getItemId() == android.R.id.home){
+            onBackPressed();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -80,13 +91,18 @@ public class QuizActivity extends AppCompatActivity {
                 .subscribe(this::handleResponse, throwable -> {
                     Log.i("quizme",throwable.getMessage());
                     runOnUiThread(() -> {
+                        questionsCardView.setVisibility(View.GONE);
                         progressBar.setVisibility(View.GONE);
+                        showRetry();
                         Toast.makeText(QuizActivity.this, getString(R.string.unable_to_process_request_please_try_again_later), Toast.LENGTH_SHORT).show();
                     });
                 });
 
     }
 
+    private void showRetry(){
+        retryButton.setVisibility(View.VISIBLE);
+    }
     private void setUpAdapter(){
         questionsList = new ArrayList<>();
         questionsAdapter = new QuestionsAdapter(this,questionsList);
@@ -95,6 +111,7 @@ public class QuizActivity extends AppCompatActivity {
 
     private void handleResponse(List<Question> questions) {
         progressBar.setVisibility(View.GONE);
+        questionsCardView.setVisibility(View.VISIBLE);
         questionsList.clear();
         questionsList.addAll(questions);
         questionsAdapter.notifyDataSetChanged();

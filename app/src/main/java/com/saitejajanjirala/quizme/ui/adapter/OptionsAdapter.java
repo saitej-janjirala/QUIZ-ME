@@ -12,23 +12,24 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.saitejajanjirala.quizme.R;
+import com.saitejajanjirala.quizme.listeners.OnOptionSelectedListener;
+import com.saitejajanjirala.quizme.models.Option;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 public class OptionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private Context context;
     private boolean hasMultipleAnswers;
-    private List<String> answers;
+    private List<Option> answers;
 
-    public OptionsAdapter(Context context, HashMap<String,String> answersMap,boolean hasMultipleAnswers){
+    private OnOptionSelectedListener listener;
+
+    public OptionsAdapter(Context context, List<Option> answers, boolean hasMultipleAnswers, OnOptionSelectedListener listener){
         this.context = context;
-        ArrayList<String> list = new ArrayList<String>(answersMap.values());
-        this.answers = list;
+        this.answers = answers;
         this.hasMultipleAnswers = hasMultipleAnswers;
+        this.listener = listener;
     }
 
     @NonNull
@@ -60,33 +61,45 @@ public class OptionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return answers.size();
     }
 
-    class SingleViewHolder extends RecyclerView.ViewHolder{
+    class SingleViewHolder extends RecyclerView.ViewHolder implements CompoundButton.OnCheckedChangeListener {
         private final RadioButton option;
         public SingleViewHolder(@NonNull View itemView) {
             super(itemView);
             option = itemView.findViewById(R.id.option);
-            option.setOnCheckedChangeListener((compoundButton, b) -> {
 
-            });
         }
 
-        public void bindData(String name){
-            option.setText(name);
+        public void bindData(Option op){
+            option.setText(op.getName());
+            option.setOnCheckedChangeListener(null);
+            option.setChecked(op.isSelected());
+            option.setOnCheckedChangeListener(this);
+        }
+
+        @Override
+        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+            listener.onOptionSelected(getAdapterPosition(),b,hasMultipleAnswers);
         }
     }
 
-    class MultipleViewHolder extends RecyclerView.ViewHolder{
+    class MultipleViewHolder extends RecyclerView.ViewHolder implements CompoundButton.OnCheckedChangeListener{
         private final CheckBox option;
         public MultipleViewHolder(@NonNull View itemView) {
             super(itemView);
             option = itemView.findViewById(R.id.option);
-            option.setOnCheckedChangeListener((compoundButton, b) -> {
-
-            });
         }
 
-        public void bindData(String name){
-            option.setText(name);
+        public void bindData(Option op){
+            option.setText(op.getName());
+            option.setOnCheckedChangeListener(null);
+            option.setChecked(op.isSelected());
+            option.setOnCheckedChangeListener(this);
+        }
+
+        @Override
+        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+            listener.onOptionSelected(getAdapterPosition(),b,hasMultipleAnswers);
+
         }
     }
 

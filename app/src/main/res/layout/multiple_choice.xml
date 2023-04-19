@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/darkTextColor"
         android:textSize="16sp"
+        android:enabled="true"
         android:text="Android auto"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>

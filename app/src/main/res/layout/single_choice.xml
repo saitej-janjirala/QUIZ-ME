@@ -12,6 +12,7 @@
         android:textColor="@color/darkTextColor"
         android:textSize="16sp"
         tools:text="Android auto"
+        android:enabled="true"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
