@@ -4,13 +4,10 @@ public class Option {
     private String name;
     private boolean isSelected;
 
-
     public Option(String name, boolean isSelected) {
         this.name = name;
         this.isSelected = isSelected;
     }
-
-
 
     public boolean isSelected() {
         return isSelected;

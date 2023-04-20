@@ -125,6 +125,7 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void handleResponse(List<Question> questions) {
+        int x = 10;
         progressBar.setVisibility(View.GONE);
         questionsCardView.setVisibility(View.VISIBLE);
         description.setVisibility(View.VISIBLE);
