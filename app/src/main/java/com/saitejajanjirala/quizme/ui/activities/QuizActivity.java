@@ -13,8 +13,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.saitejajanjirala.quizme.R;
 import com.saitejajanjirala.quizme.models.Question;
 import com.saitejajanjirala.quizme.network.CATEGORIES;
@@ -40,7 +43,10 @@ public class QuizActivity extends AppCompatActivity {
     private QuestionsAdapter questionsAdapter;
     private ViewPager2 questionsRecyclerView;
     private CardView questionsCardView;
+    private TabLayout tabLayout;
     private Button finishButton;
+
+    private TextView description;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +75,8 @@ public class QuizActivity extends AppCompatActivity {
         finishButton.setOnClickListener(view -> {
            onFinishClicked();
         });
+        tabLayout = findViewById(R.id.tab_layout);
+        description = findViewById(R.id.description);
     }
 
     private void onFinishClicked() {
@@ -93,6 +101,8 @@ public class QuizActivity extends AppCompatActivity {
                     runOnUiThread(() -> {
                         questionsCardView.setVisibility(View.GONE);
                         progressBar.setVisibility(View.GONE);
+                        description.setVisibility(View.GONE);
+                        finishButton.setVisibility(View.GONE);
                         showRetry();
                         Toast.makeText(QuizActivity.this, getString(R.string.unable_to_process_request_please_try_again_later), Toast.LENGTH_SHORT).show();
                     });
@@ -107,11 +117,18 @@ public class QuizActivity extends AppCompatActivity {
         questionsList = new ArrayList<>();
         questionsAdapter = new QuestionsAdapter(this,questionsList);
         questionsRecyclerView.setAdapter(questionsAdapter);
+        new TabLayoutMediator(tabLayout, questionsRecyclerView,
+                (tab, position) -> {
+                    tab.setText((position+1)+" / "+questionsList.size());
+                }
+        ).attach();
     }
 
     private void handleResponse(List<Question> questions) {
         progressBar.setVisibility(View.GONE);
         questionsCardView.setVisibility(View.VISIBLE);
+        description.setVisibility(View.VISIBLE);
+        finishButton.setVisibility(View.VISIBLE);
         questionsList.clear();
         questionsList.addAll(questions);
         questionsAdapter.notifyDataSetChanged();

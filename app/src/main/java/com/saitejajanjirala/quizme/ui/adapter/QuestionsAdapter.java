@@ -92,7 +92,6 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
 
                     }
                 });
-
             };
 
             optionsAdapter = new OptionsAdapter(context,answers, data.isMultipleCorrectAnswers(),listener);
