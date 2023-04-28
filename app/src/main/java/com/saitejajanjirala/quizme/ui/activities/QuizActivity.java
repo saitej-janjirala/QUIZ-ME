@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -14,18 +15,28 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.saitejajanjirala.quizme.Helper;
+import com.saitejajanjirala.quizme.Keys;
 import com.saitejajanjirala.quizme.R;
 import com.saitejajanjirala.quizme.models.Option;
 import com.saitejajanjirala.quizme.models.Question;
 import com.saitejajanjirala.quizme.models.QuestionCardData;
+import com.saitejajanjirala.quizme.models.TestResult;
 import com.saitejajanjirala.quizme.network.CATEGORIES;
 import com.saitejajanjirala.quizme.network.DIFFICULTY;
 import com.saitejajanjirala.quizme.network.QuizApiHelper;
 import com.saitejajanjirala.quizme.ui.adapter.QuestionsAdapter;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -113,6 +124,46 @@ public class QuizActivity extends AppCompatActivity {
                 score+=handleSingleChoiceAnswers(options,correctAnswers);
             }
         }
+        uploadDataToFirebaseAndNavigateToResultScreen(score);
+    }
+
+    private void uploadDataToFirebaseAndNavigateToResultScreen(int score) {
+        if(!Helper.hasInternetConnection(getApplicationContext())){
+            Toast.makeText(this, getString(R.string.no_internet_text), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date currentDate = new Date();
+        String formattedDate = formatter.format(currentDate);
+
+        TestResult testResult = new TestResult(category.getName(),score,difficulty.getDifficulty(),formattedDate);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String uid = FirebaseAuth.getInstance().getUid();
+        progressBar.setVisibility(View.VISIBLE);
+        if(uid != null){
+            db.collection(Keys.TESTS_COLLECTION).document(uid)
+                    .collection(Keys.RESULTS_COLLECTION)
+                    .add(testResult)
+                    .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentReference> task) {
+                            progressBar.setVisibility(View.GONE);
+                            if(task.isSuccessful()){
+                                gotoResultScreen(testResult);
+                            }
+                            else{
+                                Toast.makeText(QuizActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+        }
+    }
+
+    private void gotoResultScreen(TestResult testResult) {
+        Intent intent = new Intent(this,ResultActivity.class);
+        intent.putExtra("result",testResult);
+        startActivity(intent);
+        finish();
     }
 
     private int handleSingleChoiceAnswers(List<Option> options, List<Boolean> correctAnswers){
