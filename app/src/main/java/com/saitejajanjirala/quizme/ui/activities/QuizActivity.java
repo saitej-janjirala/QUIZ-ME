@@ -3,8 +3,6 @@ package com.saitejajanjirala.quizme.ui.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
@@ -19,7 +17,9 @@ import android.widget.Toast;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.saitejajanjirala.quizme.R;
+import com.saitejajanjirala.quizme.models.Option;
 import com.saitejajanjirala.quizme.models.Question;
+import com.saitejajanjirala.quizme.models.QuestionCardData;
 import com.saitejajanjirala.quizme.network.CATEGORIES;
 import com.saitejajanjirala.quizme.network.DIFFICULTY;
 import com.saitejajanjirala.quizme.network.QuizApiHelper;
@@ -30,7 +30,6 @@ import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class QuizActivity extends AppCompatActivity {
@@ -39,7 +38,7 @@ public class QuizActivity extends AppCompatActivity {
     private DIFFICULTY difficulty;
     private ProgressBar progressBar;
     private Button retryButton;
-    private List<Question> questionsList;
+    private List<QuestionCardData> questionsList;
     private QuestionsAdapter questionsAdapter;
     private ViewPager2 questionsRecyclerView;
     private CardView questionsCardView;
@@ -73,13 +72,66 @@ public class QuizActivity extends AppCompatActivity {
         questionsCardView= findViewById(R.id.questions_card);
         finishButton = findViewById(R.id.finish_test);
         finishButton.setOnClickListener(view -> {
-           onFinishClicked();
+            onFinishClicked();
         });
         tabLayout = findViewById(R.id.tab_layout);
         description = findViewById(R.id.description);
     }
 
     private void onFinishClicked() {
+        List<QuestionCardData> list = questionsAdapter.getQuestionList();
+        int pos = -1;
+        for(int i=0;i<list.size();i++){
+            if(!list.get(i).isAnswered()){
+                pos = i;
+                break;
+            }
+        }
+        handleUnanswered(pos);
+    }
+
+    private void handleUnanswered(int pos) {
+        if(pos != -1){
+            Toast.makeText(this, "Please answer question "+(pos+1), Toast.LENGTH_SHORT).show();
+            questionsRecyclerView.setCurrentItem(pos);
+        }
+        else{
+            calculateResultAndNavigateToResultScreen();
+        }
+    }
+
+    private void calculateResultAndNavigateToResultScreen() {
+
+        int score =0;
+        for(QuestionCardData i: questionsAdapter.getQuestionList()){
+            List<Option> options = i.getOptions();
+            List<Boolean> correctAnswers = i.getCorrectAnswers();
+            if(i.isMultipleAnswers()){
+                score+= handleMultipleAnswers(options,correctAnswers);
+            }
+            else{
+                score+=handleSingleChoiceAnswers(options,correctAnswers);
+            }
+        }
+    }
+
+    private int handleSingleChoiceAnswers(List<Option> options, List<Boolean> correctAnswers){
+        int ss = 0;
+        for(int j=0;j<options.size();j++){
+            if(options.get(j).isSelected() && correctAnswers.get(j)){
+                ss = 1;
+            }
+        }
+        return ss;
+    }
+    private int handleMultipleAnswers(List<Option> options, List<Boolean> correctAnswers) {
+        int ss = 1;
+        for(int j=0;j<options.size();j++){
+            if((options.get(j).isSelected() && !correctAnswers.get(j))){
+                return 0;
+            }
+        }
+        return ss;
     }
 
     @Override
@@ -129,9 +181,15 @@ public class QuizActivity extends AppCompatActivity {
         questionsCardView.setVisibility(View.VISIBLE);
         description.setVisibility(View.VISIBLE);
         finishButton.setVisibility(View.VISIBLE);
-        questionsList.clear();
-        questionsList.addAll(questions);
+        setQuestionCards(questions);
         questionsAdapter.notifyDataSetChanged();
+    }
+
+    private void setQuestionCards(List<Question> questions){
+        questionsList.clear();
+        for(Question i : questions){
+            questionsList.add(new QuestionCardData(i.getQuestion(),i.getOptions(),i.getCorrectAnswersList(),i.getDifficulty(),i.isMultipleCorrectAnswers()));
+        }
     }
 
 }

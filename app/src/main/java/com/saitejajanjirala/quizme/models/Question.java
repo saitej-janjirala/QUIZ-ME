@@ -1,10 +1,15 @@
 package com.saitejajanjirala.quizme.models;
+import android.text.TextUtils;
+
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class Question {
 
@@ -24,7 +29,7 @@ public class Question {
     private boolean multipleCorrectAnswers;
 
     @SerializedName("correct_answers")
-    private Map<String, String> correctAnswers;
+    private HashMap<String, Boolean> correctAnswers;
 
     @SerializedName("explanation")
     private String explanation;
@@ -62,7 +67,7 @@ public class Question {
         return multipleCorrectAnswers;
     }
 
-    public Map<String, String> getCorrectAnswers() {
+    public HashMap<String, Boolean> getCorrectAnswers() {
         return correctAnswers;
     }
 
@@ -86,6 +91,32 @@ public class Question {
         return difficulty;
     }
 
+
+    public ArrayList<Option> getOptions(){
+        Map<String,String> map = new TreeMap<>(getAnswers());
+        HashMap<String,String> hMap = new HashMap<>(map);
+        ArrayList<String> ans = new ArrayList<String>(hMap.values());
+        ArrayList<Option> answers = new ArrayList<>();
+        for(String i : ans){
+            if(!TextUtils.isEmpty(i) && !i.equals("null")){
+                answers.add(new Option(i,false));
+            }
+        }
+        return answers;
+    }
+
+    public ArrayList<Boolean> getCorrectAnswersList(){
+        List<String> arr = new ArrayList<>();
+        for(Map.Entry<String,Boolean> entry : correctAnswers.entrySet()){
+            arr.add(entry.getKey());
+        }
+        Collections.sort(arr);
+        ArrayList<Boolean> boolArr = new ArrayList<>();
+        for (String i : arr){
+            boolArr.add(correctAnswers.get(i));
+        }
+        return boolArr;
+    }
     @Override
     public String toString() {
         return "Question{" +
@@ -102,6 +133,7 @@ public class Question {
                 ", difficulty='" + difficulty + '\'' +
                 '}';
     }
+
 
 
 

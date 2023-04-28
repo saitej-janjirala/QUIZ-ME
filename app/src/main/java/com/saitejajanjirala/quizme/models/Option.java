@@ -1,5 +1,7 @@
 package com.saitejajanjirala.quizme.models;
 
+import androidx.annotation.NonNull;
+
 public class Option {
     private String name;
     private boolean isSelected;
@@ -23,5 +25,13 @@ public class Option {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Option{" +
+                "name='" + name + '\'' +
+                ", isSelected=" + isSelected +
+                '}';
     }
 }

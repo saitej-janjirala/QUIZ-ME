@@ -15,6 +15,7 @@ import com.saitejajanjirala.quizme.R;
 import com.saitejajanjirala.quizme.listeners.OnOptionSelectedListener;
 import com.saitejajanjirala.quizme.models.Option;
 import com.saitejajanjirala.quizme.models.Question;
+import com.saitejajanjirala.quizme.models.QuestionCardData;
 
 import org.checkerframework.checker.units.qual.A;
 
@@ -25,9 +26,9 @@ import java.util.List;
 
 public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.QuestionsViewHolder> {
     private Context context;
-    private List<Question> questionList;
+    private List<QuestionCardData> questionList;
 
-    public QuestionsAdapter(Context context, List<Question> questionList){
+    public QuestionsAdapter(Context context, List<QuestionCardData> questionList){
         this.context = context;
         this.questionList = questionList;
     }
@@ -64,16 +65,9 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
             optionsRecyclerView = itemView.findViewById(R.id.questions_sub_recycler_view);
         }
 
-        void bind(int position,Question data){
+        void bind(int position,QuestionCardData data){
             question.setText((position+1)+"." +data.getQuestion());
-            ArrayList<String> ans = new ArrayList<String>(((HashMap<String, String>) data.getAnswers()).values());
-            ArrayList<Option> answers = new ArrayList<>();
-            for(String i : ans){
-                if(!TextUtils.isEmpty(i) && !i.equals("null")){
-                    answers.add(new Option(i,false));
-                }
-            }
-
+            ArrayList<Option> answers = data.getOptions();
             OnOptionSelectedListener listener = (position1, isSelected, isMultiple) -> {
                 if(!isMultiple){
                     for(int i=0;i<answers.size();i++){
@@ -85,18 +79,21 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
                 Option x = answers.get(position1);
                 x.setSelected(isSelected);
                 answers.set(position1,x);
-                optionsRecyclerView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        optionsAdapter.notifyDataSetChanged();
-
-                    }
-                });
+                optionsRecyclerView.post(() -> optionsAdapter.notifyDataSetChanged());
+                data.setOptions(answers);
+                questionList.set(position,data);
+                notifyItemChanged(position);
             };
 
-            optionsAdapter = new OptionsAdapter(context,answers, data.isMultipleCorrectAnswers(),listener);
+
+
+            optionsAdapter = new OptionsAdapter(context,answers, data.isMultipleAnswers(),listener);
 
             optionsRecyclerView.setAdapter(optionsAdapter);
         }
+    }
+
+    public List<QuestionCardData> getQuestionList() {
+        return questionList;
     }
 }
