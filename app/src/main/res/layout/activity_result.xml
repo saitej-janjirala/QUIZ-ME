@@ -22,21 +22,23 @@
             app:layout_constraintVertical_bias="0.3"/>
 
         <!-- Circular Progress Bar -->
-    <ProgressBar
-            android:id="@+id/circular_progress_bar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:progress="0"
-            android:max="10"
-            android:secondaryProgress="0"
-            android:progressDrawable="@drawable/circular_progress_bar"
-            app:layout_constraintTop_toBottomOf="@id/message_textview"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintVertical_bias="0.7"/>
+    <com.mikhaellopez.circularprogressbar.CircularProgressBar
+        android:id="@+id/circular_progress_bar"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:cpb_background_progressbar_color="@color/light_green_bg_color"
+        app:cpb_background_progressbar_width="5dp"
+        app:cpb_progress_direction="to_right"
+        app:cpb_progressbar_color="@color/teal_700"
+        app:cpb_progressbar_width="10dp"
+        app:cpb_round_border="false"
+        app:cpb_progress_max="10"
+        app:layout_constraintTop_toBottomOf="@id/message_textview"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.7"/>
     <TextView
         android:id="@+id/score"
         android:layout_width="wrap_content"

@@ -5,17 +5,19 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 import com.saitejajanjirala.quizme.R;
 import com.saitejajanjirala.quizme.models.TestResult;
 
 public class ResultActivity extends AppCompatActivity {
 
     private TextView score;
-    private ProgressBar progressBar;
+    private CircularProgressBar progressBar;
     private TestResult testResult;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +44,8 @@ public class ResultActivity extends AppCompatActivity {
     private void getIntentData() {
         try {
             testResult = (TestResult) getIntent().getSerializableExtra("result");
-            setData();
         }catch (Exception e){
+            Log.e("quiz-app",e.getMessage());
             finish();
         }
     }
