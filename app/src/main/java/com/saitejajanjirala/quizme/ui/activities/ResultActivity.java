@@ -39,6 +39,7 @@ public class ResultActivity extends AppCompatActivity {
     private void initViews() {
         progressBar = findViewById(R.id.circular_progress_bar);
         score = findViewById(R.id.score);
+        setData();
     }
 
     private void getIntentData() {
@@ -52,7 +53,9 @@ public class ResultActivity extends AppCompatActivity {
 
     private void setData() {
         score.setText(testResult.getScore()+" / 10");
-        progressBar.setProgress(testResult.getScore());
+        progressBar.setProgressMax(10f);
+        progressBar.setProgressWithAnimation((float) testResult.getScore(),1500l);
+
     }
 
     @Override
