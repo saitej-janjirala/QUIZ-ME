@@ -108,5 +108,13 @@ public class PastTestsFragment extends Fragment {
                 testResults.add(testResult);
             }
         }
+        if(testResults.size()==0){
+            noPastTestsMessage.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        }
+        else{
+            noPastTestsMessage.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
     }
 }
