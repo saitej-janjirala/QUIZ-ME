@@ -47,7 +47,7 @@ public class HomeActivity extends AppCompatActivity {
         setSupportActionBar(toolBar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Flight-Bnb");
+        getSupportActionBar().setTitle(getString(R.string.app_name));
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 HomeActivity.this,
