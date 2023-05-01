@@ -8,6 +8,9 @@ public class TestResult implements Serializable {
     private String difficulty;
     private String date;
 
+    public TestResult(){
+
+    }
     public TestResult(String category, int score, String difficulty, String date) {
         this.category = category;
         this.score = score;

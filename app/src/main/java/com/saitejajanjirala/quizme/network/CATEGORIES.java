@@ -1,5 +1,7 @@
 package com.saitejajanjirala.quizme.network;
 
+import android.util.Log;
+
 import com.saitejajanjirala.quizme.R;
 
 public enum CATEGORIES {
@@ -30,5 +32,23 @@ public enum CATEGORIES {
 
     public int getResId() {
         return resId;
+    }
+
+    public static CATEGORIES fromValue(String value) {
+        for (CATEGORIES e : CATEGORIES.values()) {
+            String nm = e.name;
+            if (nm.equals(value)) {
+                return e;
+            }
+        }
+        throw new IllegalArgumentException("Invalid value: " + value);
+    }
+
+    @Override
+    public String toString() {
+        return "CATEGORIES{" +
+                "name='" + name + '\'' +
+                ", resId=" + resId +
+                '}';
     }
 }
