@@ -28,7 +28,7 @@ public class Helper {
     }
 
     public static boolean validateName(String name) {
-        return !name.isEmpty() && !name.trim().isEmpty() && name.length()>3 ;
+        return !name.isEmpty() && !name.trim().isEmpty() && name.length()>=3 ;
     }
 
     public static boolean hasInternetConnection(Context context) {
