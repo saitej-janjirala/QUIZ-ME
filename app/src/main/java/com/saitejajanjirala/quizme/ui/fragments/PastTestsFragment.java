@@ -25,7 +25,11 @@ import com.saitejajanjirala.quizme.R;
 import com.saitejajanjirala.quizme.models.TestResult;
 import com.saitejajanjirala.quizme.ui.adapter.PastTestsAdapter;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 
@@ -114,7 +118,27 @@ public class PastTestsFragment extends Fragment {
         }
         else{
             noPastTestsMessage.setVisibility(View.GONE);
+            sortTheListAccordingToLatestDates();
             recyclerView.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void sortTheListAccordingToLatestDates() {
+        Collections.sort(testResults, new Comparator<TestResult>() {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+
+            @Override
+            public int compare(TestResult o1, TestResult o2) {
+                try {
+                    Date date1 = dateFormat.parse(o1.getDate());
+                    Date date2 = dateFormat.parse(o2.getDate());
+                    return date2.compareTo(date1); // Sort in descending order
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return 0;
+                }
+            }
+        });
+
     }
 }

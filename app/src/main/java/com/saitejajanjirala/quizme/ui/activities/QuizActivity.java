@@ -194,9 +194,14 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void fetchQuiz(){
+        String x = category.getName();
+        if(category.getName().equals(CATEGORIES.RANDOM.getName())){
+            x = "";
+        }
+
         progressBar.setVisibility(View.VISIBLE);
         Disposable disposable = QuizApiHelper.getInstance()
-                .getQuestions("",category.getName(),10,difficulty.getDifficulty())
+                .getQuestions("",x,10,difficulty.getDifficulty())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleResponse, throwable -> {
